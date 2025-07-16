@@ -1,86 +1,132 @@
-# OC Projet 2 - Fashion Trend Intelligence
+Bien sûr Pierre, voici une version **améliorée, claire et “pro”** de ton README, **à jour avec ta structure factorisée et l’usage de Poetry, python-dotenv et modules maison**.
+👉 Prêt à copier-coller dans Notion, GitHub, ou ailleurs !
 
-Ce projet vise à développer une preuve de concept pour la segmentation automatique de vêtements sur des images à l’aide d’un modèle Hugging Face.
+---
 
-## Structure du projet
+# OC Projet 2 — Fashion Trend Intelligence
 
-```
-├── LICENSE            <- Open-source license if one is chosen
-├── README.md          <- The top-level README for developers using this project
-├── data
-│   ├── external       <- Data from third party sources
-│   ├── interim        <- Intermediate data that has been transformed
-│   ├── processed      <- The final, canonical data sets for modeling
-│   └── raw            <- The original, immutable data dump
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-└── src                         <- Source code for this project
-    │
-    ├── __init__.py             <- Makes src a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    │    
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    ├── plots.py                <- Code to create visualizations 
-    │
-    └── services                <- Service classes to connect with external platforms, tools, or APIs
-        └── __init__.py 
+Ce projet est une preuve de concept de **segmentation automatique de vêtements sur images** via un modèle Hugging Face.
+Le code est entièrement factorisé et modulaire pour une meilleure maintenance et réutilisation, selon les standards AI Engineer OpenClassrooms.
+
+---
+
+## 📁 **Structure du projet**
+
+```plaintext
+├── LICENSE
+├── README.md
+├── data/
+│   ├── external/
+│   ├── interim/
+│   ├── processed/
+│   └── raw/
+├── models/
+├── notebooks/
+├── references/
+├── reports/
+│   └── figures/
+├── requirements.txt   # (généré automatiquement si besoin)
+├── pyproject.toml     # (Poetry)
+├── .env               # (token API, jamais versionné)
+└── src/
+    ├── __init__.py
+    ├── config.py
+    ├── dataset.py
+    ├── features.py
+    ├── plots.py
+    ├── modeling/
+    │   ├── __init__.py
+    │   ├── predict.py
+    │   └── train.py
+    └── services/
+        └── __init__.py
 ```
 
---------
-## Installation
+---
 
-### 1. Clone le repo et installe Poetry
+## 🚀 **Installation & setup**
 
+### 1. **Cloner le repo & installer Poetry**
+
+```bash
 git clone <URL_DU_REPO>
 cd <NOM_DU_REPO>
 pip install poetry
 poetry install
 poetry shell
+```
 
-### 2. Ajoute ton token Hugging Face en toute sécurité
-Crée un fichier .env à la racine du projet avec :
+---
 
-HF_API_TOKEN=ton_token_ici
-Le fichier .env est déjà listé dans .gitignore pour éviter tout partage accidentel.
+### 2. **Configuration de la clé API**
 
-### 3. Dépose les données fournies
-Place les images d’exemple et leurs annotations dans data/raw/.
+- Crée un fichier `.env` à la racine du projet :
 
-### 🚦 Utilisation rapide
-Lancer le script d’inférence :
+  ```dotenv
+  API_TOKEN=ton_token_huggingface_ici
+  ```
 
-poetry run python src/modeling/predict.py --input data/raw --output data/processed
-(à adapter selon le nom réel de ton script)
+- Le fichier `.env` est **déjà listé dans `.gitignore`**.
 
-### Générer des visualisations :
+---
 
-Utilise les notebooks dans le dossier notebooks/ ou le module src/plots.py pour afficher des images originales vs. segmentées.
+### 3. **Dépose tes données**
 
+- Place les images d’exemple dans `data/raw/`.
 
-## Contact
-Pierre.pluton@outlook.fr
+---
 
-*Projet réalisé dans le cadre de la formation OpenClassrooms AI Engineer.*
+### 4. **Lancer un pipeline d’inférence dans un notebook**
+
+Dans un nouveau notebook du dossier `notebooks/` :
+
+```python
+import sys
+sys.path.append("../src")
+
+from dataset import list_images
+from features import get_image_dimensions, decode_base64_mask, create_masks
+from modeling.predict import segment_images_batch
+from plots import display_segmented_images_batch
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv("../.env")
+api_token = os.getenv("API_TOKEN")
+
+image_dir = "../data/raw/top_influenceurs_2024/IMG/"
+max_images = 2
+api_url = "https://router.huggingface.co/hf-inference/models/sayeed99/segformer_b3_clothes"
+
+image_paths = list_images(image_dir, max_images)
+batch_seg_results = segment_images_batch(image_paths, api_url, api_token)
+display_segmented_images_batch(image_paths, batch_seg_results)
+```
+
+---
+
+### 5. **(Option) Générer un fichier requirements.txt**
+
+Pour compatibilité universelle (hors Poetry) :
+
+```bash
+poetry export --format=requirements.txt --output=requirements.txt
+```
+
+---
+
+## 💡 **Bonnes pratiques**
+
+- **Tous les modules réutilisables sont factorisés dans `/src`** pour faciliter la maintenance, le test, et la reproductibilité.
+- **Pas d’API key dans le code :** utilisez le `.env` et `python-dotenv` pour la sécurité.
+- **Le notebook sert uniquement de pipeline, pas d’implémentation brute.**
+- **Redémarrez le kernel Jupyter** après modification de la structure du projet ou du `.env`.
+
+---
+
+## 🧑‍💻 **Contact**
+
+> [pierre.pluton@outlook.fr](mailto:pierre.pluton@outlook.fr) > _Projet réalisé dans le cadre de la formation OpenClassrooms AI Engineer._
+
+---
