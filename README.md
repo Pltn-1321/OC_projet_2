@@ -1,6 +1,3 @@
-Bien sûr Pierre, voici une version **améliorée, claire et “pro”** de ton README, **à jour avec ta structure factorisée et l’usage de Poetry, python-dotenv et modules maison**.
-👉 Prêt à copier-coller dans Notion, GitHub, ou ailleurs !
-
 ---
 
 # OC Projet 2 — Fashion Trend Intelligence
