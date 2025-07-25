@@ -8,6 +8,8 @@ Bien sûr Pierre, voici une version **améliorée, claire et “pro”** de ton 
 Ce projet est une preuve de concept de **segmentation automatique de vêtements sur images** via un modèle Hugging Face.
 Le code est entièrement factorisé et modulaire pour une meilleure maintenance et réutilisation, selon les standards AI Engineer OpenClassrooms.
 
+Rendu et présentation professionnelle : https://gamma.app/docs/Projet-2-Fashion-Trend-Intelligence-Analyse-Automatisee-des-Tenda-w0k8x7zn5q38p8b
+
 ---
 
 ## 📁 **Structure du projet**
