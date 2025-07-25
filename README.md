@@ -1,4 +1,4 @@
----
+ ---
 
 # OC Projet 2 — Fashion Trend Intelligence
 
@@ -7,7 +7,7 @@ Le code est entièrement factorisé et modulaire pour une meilleure maintenance 
 
 Rendu et présentation professionnelle : https://gamma.app/docs/Projet-2-Fashion-Trend-Intelligence-Analyse-Automatisee-des-Tenda-w0k8x7zn5q38p8b
 
----
+ ---
 
 ## 📁 **Structure du projet**
 
